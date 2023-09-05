@@ -14,13 +14,16 @@ public class FormTest : MonoBehaviour
     
     private List<GameObject> _points = new List<GameObject>();
 
-
+    [SerializeField] private TrailRenderer trailRenderer;
     private void Awake()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
             models.Add(transform.GetChild(i).gameObject);
         }
+
+        trailRenderer.startColor = Color.red;
+        trailRenderer.endColor = Color.red;
     }
 
     private void OnMouseEnter()
@@ -38,13 +41,15 @@ public class FormTest : MonoBehaviour
     {
         if (canDraw)
         {
-            foreach (Collider2D collider in Physics2D.OverlapCircleAll(FindObjectOfType<Camera>().ScreenToWorldPoint(Input.mousePosition), 0.14f)) {
+            foreach (Collider2D collider in Physics2D.OverlapCircleAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.14f)) {
                 if (collider is CircleCollider2D && !_points.Contains(collider.gameObject))
                 {
                     _points.Add(collider.gameObject);
                 }
             }
         }
+        
+        
        
     }
 
