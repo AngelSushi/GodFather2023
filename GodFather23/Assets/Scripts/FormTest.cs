@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FormTest : MonoBehaviour
 {
 
-    [SerializeField] private bool startDrawing;
+    [SerializeField] private bool canDraw;
 
-    [SerializeField] private List<GameObject> models;
+    [SerializeField] private List<GameObject> models = new List<GameObject>();
     
-    private List<GameObject> _points;
+    private List<GameObject> _points = new List<GameObject>();
 
 
     private void Awake()
@@ -24,23 +25,69 @@ public class FormTest : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        startDrawing = true;
+        canDraw = true;
+    }
+
+    private void OnMouseExit()
+    {
+        _points.Clear();
+        canDraw = false;
     }
 
     private void OnMouseDrag()
     {
-        if (startDrawing)
+        if (canDraw)
         {
-            foreach (Collider2D collider in Physics2D.OverlapCircleAll(FindObjectOfType<Camera>().ScreenToWorldPoint(Input.mousePosition), 0.2f)) {
-                Debug.Log("name of " + collider.name);
+            foreach (Collider2D collider in Physics2D.OverlapCircleAll(FindObjectOfType<Camera>().ScreenToWorldPoint(Input.mousePosition), 0.14f)) {
+                if (collider is CircleCollider2D && !_points.Contains(collider.gameObject))
+                {
+                    _points.Add(collider.gameObject);
+                }
             }
         }
+       
     }
 
-    
 
-    private void OnMouseExit()
+    private void OnMouseUp()
     {
-        startDrawing = false;
+        if (canDraw)
+        {
+            if (_points.Count != models.Count)
+            {
+                Debug.Log("loose (" + _points.Count + "/" + models.Count + ")");
+            }
+            else
+            {
+
+                bool goodPath = true;
+                GameObject pointDifferent = null;
+                GameObject modelDifferent = null;
+                
+                for (int i = 0; i < _points.Count; i++)
+                {
+                    if (_points[i] != models[i])
+                    {
+                        goodPath = false;
+                        pointDifferent = _points[i];
+                        modelDifferent = models[i];
+                        break;
+                    }
+                }
+
+                if (goodPath)
+                {
+                    Debug.Log("win");
+                }
+                else
+                {
+                    Debug.Log("loose (" + pointDifferent.name + "/" + modelDifferent.name + ")");
+                }
+            }
+
+            _points.Clear();
+            Debug.Log("cleaaar ");
+            canDraw = false;
+        }
     }
 }
