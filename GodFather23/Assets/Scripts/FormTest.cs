@@ -32,7 +32,7 @@ public class FormTest : MonoBehaviour
     {
         canDraw = true;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        worldPosition.z = 0;
+        worldPosition.z = 4;
         trailRenderer.enabled = true;
         trailRenderer.transform.position = worldPosition;
     }
@@ -51,7 +51,7 @@ public class FormTest : MonoBehaviour
         {
             trailRenderer.gameObject.SetActive(true);
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            worldPosition.z = 0;
+            worldPosition.z = 4;
             trailRenderer.transform.position = worldPosition;
             trailRenderer.enabled = true;
             

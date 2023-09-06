@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private List<FormTest> _allForms;
     private FormTest _current;
 
+    [SerializeField] private float speed;
+
     private void Start()
     {
         _allForms = FindObjectsOfType<FormTest>().ToList();
@@ -18,17 +20,26 @@ public class Player : MonoBehaviour
         _allForms.ForEach(form => form.gameObject.SetActive(false));
     }
 
-
-    private void OnCollisionEnter2D(Collision2D col)
+    private void Update()
     {
-        int random = Random.Range(0, _allForms.Count);
-        _current = _allForms[random];
+        transform.Translate(Input.GetAxis("Horizontal") * speed * Time.deltaTime, Input.GetAxis("Vertical") * speed * Time.deltaTime, 0);
+    }
+
+
+    private void OnCollisionStay2D(Collision2D col)
+    {
+        Debug.Log("collision");
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            int random = Random.Range(0, _allForms.Count);
+            _current = _allForms[random];
         
-        _current.transform.gameObject.SetActive(true);
+            _current.transform.gameObject.SetActive(true);
+        }
     }
 
     private void OnCollisionExit2D(Collision2D col)
     {
-        _current.transform.gameObject.SetActive(false);
+        _current?.transform.gameObject.SetActive(false);
     }
 }

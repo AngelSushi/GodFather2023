@@ -6,7 +6,7 @@ using UnityEngine;
 public class spawn : MonoBehaviour
 {
 
-    public int size;
+    public float size;
     public GameObject insectesPrefab;
     public GameObject spawnPoint;
     public GameObject respawn;
@@ -29,7 +29,10 @@ public class spawn : MonoBehaviour
 
     public void random ()
     {
-        spawnPoint.transform.position = Random.insideUnitCircle * size;
+        Vector3 position = Random.insideUnitCircle * size;
+        position.z = 8f;
+       
+        spawnPoint.transform.position =position;
         Cooldown = false;
         StartCoroutine(spawnTime());
 
