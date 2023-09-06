@@ -22,8 +22,7 @@ public class FormTest : MonoBehaviour
             models.Add(transform.GetChild(i).gameObject);
         }
 
-        trailRenderer.startColor = Color.red;
-        trailRenderer.endColor = Color.red;
+        trailRenderer.enabled = false;
     }
 
     private void OnMouseEnter()
@@ -41,6 +40,11 @@ public class FormTest : MonoBehaviour
     {
         if (canDraw)
         {
+            Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            worldPosition.z = 0;
+            trailRenderer.transform.position = worldPosition;
+            trailRenderer.enabled = true;
+            
             foreach (Collider2D collider in Physics2D.OverlapCircleAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), 0.14f)) {
                 if (collider is CircleCollider2D && !_points.Contains(collider.gameObject))
                 {
