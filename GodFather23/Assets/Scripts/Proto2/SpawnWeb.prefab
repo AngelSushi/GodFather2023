@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4406446046011741760}
   - component: {fileID: 4406446046011741763}
   - component: {fileID: 4406446046011741762}
+  - component: {fileID: 2797468428827353667}
   m_Layer: 0
   m_Name: SpawnWeb
   m_TagString: Untagged
@@ -131,3 +132,18 @@ HingeJoint2D:
   m_AngleLimits:
     m_LowerAngle: 0
     m_UpperAngle: 359
+--- !u!114 &2797468428827353667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4406446046011741821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913dd6ab05c0c2c40a9da3fb8f3f6603, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cobweb: {fileID: 8513081132476665564, guid: 53b38719066ba024a86a6ad6c9af09d3, type: 3}
+  _maxAmountOfWeb: 10
+  _spawnRange: 0.5

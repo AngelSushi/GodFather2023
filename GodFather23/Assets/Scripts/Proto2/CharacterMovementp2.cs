@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterMovementp2 : MonoBehaviour
 {
-    [SerializeField] float _spiderSpeed;
+    public float _spiderSpeed;
     Rigidbody2D _rb2d;
     Vector2 _position;
     Vector2 velocity = Vector2.zero;

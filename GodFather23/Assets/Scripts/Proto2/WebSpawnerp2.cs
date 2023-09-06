@@ -5,6 +5,7 @@ using UnityEngine;
 public class WebSpawnerp2 : MonoBehaviour
 {
     [SerializeField] GameObject _web;
+    GameObject _actualWeb;
     bool _alreadyAWeb;
     void Start()
     {
@@ -24,7 +25,11 @@ public class WebSpawnerp2 : MonoBehaviour
     {
         if (_alreadyAWeb)
         {
-            Instantiate(_web, transform.position, Quaternion.identity);
+            _actualWeb = Instantiate(_web, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Destroy(_actualWeb);
         }
     }
 }
