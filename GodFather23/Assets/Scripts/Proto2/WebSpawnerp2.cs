@@ -16,8 +16,17 @@ public class WebSpawnerp2 : MonoBehaviour
     {
         if (Input.GetKeyDown("space"))
         {
-            _alreadyAWeb = !_alreadyAWeb;
-            NewWeb();
+            if (!_alreadyAWeb)
+            {
+                _alreadyAWeb = !_alreadyAWeb;
+                NewWeb();
+            }
+            else
+            {
+
+                _actualWeb.GetComponent<SpawnCobweb>()._cobwebList.Add(new Web());
+                _actualWeb.GetComponent<SpawnCobweb>().NewTriangle();
+            }
         }
     }
     
@@ -26,10 +35,8 @@ public class WebSpawnerp2 : MonoBehaviour
         if (_alreadyAWeb)
         {
             _actualWeb = Instantiate(_web, transform.position, Quaternion.identity);
+            _actualWeb.GetComponent<SpawnCobweb>()._cobwebList.Add(new Web());
         }
-        else
-        {
-            Destroy(_actualWeb);
-        }
+
     }
 }

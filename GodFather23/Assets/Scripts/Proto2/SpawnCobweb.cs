@@ -5,13 +5,16 @@ using UnityEngine;
 public class SpawnCobweb : MonoBehaviour
 {
     [SerializeField] GameObject _cobweb;
+    [SerializeField] GameObject _checkpoint;
     [SerializeField] int _maxAmountOfWeb;
     [SerializeField] float _spawnRange;
     //int _amountOfWeb;
     [SerializeField] GameObject _spider;
     GameObject _lastWeb;
     bool _isTheLast = true;
-    List<GameObject> _cobwebList = new List<GameObject>();
+    public List<Web> _cobwebList = new List<Web>();
+    int _cobwebID = 0;
+    public List<GameObject> _triangles = new List<GameObject>();
 
     void Start()
     {
@@ -23,12 +26,13 @@ public class SpawnCobweb : MonoBehaviour
     void Update()
     {
         //Debug.Log((_spider.transform.position - transform.position).magnitude);
-        if ((_spider.transform.position - _lastWeb.transform.position).magnitude > _spawnRange && _cobwebList.Count < _maxAmountOfWeb)
+        Debug.Log("cobweb id : " + _cobwebID + " cobweb count : " + _cobwebList[_cobwebID].Cobwebs.Count);
+        if ((_spider.transform.position - _lastWeb.transform.position).magnitude > _spawnRange && _cobwebList[_cobwebID].Cobwebs.Count < _maxAmountOfWeb)
         {
             NewWeb();
             //Debug.Log(_lastWeb.name);
         }
-        else if (_cobwebList.Count >= _maxAmountOfWeb && _isTheLast)
+        else if (_cobwebList[_cobwebID].Cobwebs.Count >= _maxAmountOfWeb && _isTheLast)
         {
             _isTheLast = !_isTheLast;
             _lastWeb.GetComponent<HingeJoint2D>().enabled = true;
@@ -38,6 +42,18 @@ public class SpawnCobweb : MonoBehaviour
             //AddForce();
         }
     }
+    public void NewTriangle()
+    {
+        _cobwebID++;
+        _isTheLast = true;
+        _lastWeb.GetComponent<HingeJoint2D>().enabled = true;
+        GameObject _newWeb = Instantiate(_checkpoint, _lastWeb.GetComponent<CobwebScript>()._pivot.position, _lastWeb.GetComponent<Transform>().localRotation);
+
+
+        _lastWeb.GetComponent<HingeJoint2D>().connectedBody = _newWeb.GetComponent<Rigidbody2D>();
+        _lastWeb = _newWeb;
+    }
+
 
     void NewWeb()
     {
@@ -58,7 +74,7 @@ public class SpawnCobweb : MonoBehaviour
         }
 
         Rotation(_lastWeb.transform);
-        _cobwebList.Add(_lastWeb);
+        _cobwebList[_cobwebID].Cobwebs.Add(_lastWeb);
         //_cobweb.transform.LookAt(_spider.transform);
     }
     public void Rotation(Transform _transform)
@@ -87,7 +103,7 @@ public class SpawnCobweb : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(_spider.transform.position, _spawnRange);
+        //Gizmos.DrawWireSphere(_spider.transform.position, _spawnRange);
     }
 
 
