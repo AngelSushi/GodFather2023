@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D col)
     {
-        Debug.Log("collision");
         if (Input.GetKeyDown(KeyCode.R))
         {
             int random = Random.Range(0, _allForms.Count);

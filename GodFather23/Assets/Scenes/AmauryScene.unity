@@ -1121,7 +1121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!50 &1027031339
 Rigidbody2D:
   serializedVersion: 4
@@ -2464,13 +2464,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 6.5
-  insectesPrefab: {fileID: 7837805752508507741, guid: 6beb15cac8ec67346aeb8abc72951fce, type: 3}
+  insectsPrefab:
+  - {fileID: 6455148995904748499, guid: 115fce644e9762146ac7bbfaaef246e7, type: 3}
+  - {fileID: 1704772952434913347, guid: c102b1a1cca2b884fbb495a6d4f42d26, type: 3}
+  boss: {fileID: 7837805752508507741, guid: 6beb15cac8ec67346aeb8abc72951fce, type: 3}
+  bossTimer: 10
   spawnPoint: {fileID: 1893613549}
   respawn: {fileID: 0}
   margin: 3
   spawnList: []
-  spawnCooldown: 20
+  spawnCooldown: 5
   Cooldown: 1
+  bossAmplifier: 1.5
+  maxBossSize: 8
 --- !u!4 &1893613551
 Transform:
   m_ObjectHideFlags: 0
@@ -2553,7 +2559,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!60 &1952096900
 PolygonCollider2D:
   m_ObjectHideFlags: 0
