@@ -10,7 +10,7 @@ public class SpawnCobweb : MonoBehaviour
     //int _amountOfWeb;
     [SerializeField] GameObject _spider;
     GameObject _lastWeb;
-
+    bool _isTheLast = true;
     List<GameObject> _cobwebList = new List<GameObject>();
 
     void Start()
@@ -28,8 +28,15 @@ public class SpawnCobweb : MonoBehaviour
             NewWeb();
             //Debug.Log(_lastWeb.name);
         }
-        else if (_cobwebList.Count >= _maxAmountOfWeb)
-            AddForce();
+        else if (_cobwebList.Count >= _maxAmountOfWeb && _isTheLast)
+        {
+            _isTheLast = !_isTheLast;
+            _lastWeb.GetComponent<HingeJoint2D>().enabled = true;
+
+            _lastWeb.GetComponent<HingeJoint2D>().connectedBody = _spider.GetComponent<Rigidbody2D>();
+            //_lastWeb.transform.parent = _spider.transform;
+            //AddForce();
+        }
     }
 
     void NewWeb()
