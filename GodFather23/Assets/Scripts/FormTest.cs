@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +17,8 @@ public class FormTest : MonoBehaviour
     private List<GameObject> _points = new List<GameObject>();
 
     [SerializeField] private TrailRenderer trailRenderer;
+
+    private bool _succeed;
     private void Awake()
     {
         for (int i = 0; i < transform.childCount; i++)
@@ -24,15 +28,20 @@ public class FormTest : MonoBehaviour
 
         trailRenderer.enabled = false;
     }
-
     private void OnMouseEnter()
     {
         canDraw = true;
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPosition.z = 0;
+        trailRenderer.enabled = true;
+        trailRenderer.transform.position = worldPosition;
     }
 
     private void OnMouseExit()
     {
         _points.Clear();
+        trailRenderer.Clear();
+        trailRenderer.enabled = false;
         canDraw = false;
     }
 
@@ -40,6 +49,7 @@ public class FormTest : MonoBehaviour
     {
         if (canDraw)
         {
+            trailRenderer.gameObject.SetActive(true);
             Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPosition.z = 0;
             trailRenderer.transform.position = worldPosition;
@@ -87,16 +97,21 @@ public class FormTest : MonoBehaviour
                 if (goodPath)
                 {
                     Debug.Log("win");
+                    gameObject.SetActive(false);
+                    
                 }
                 else
                 {
                     Debug.Log("loose (" + pointDifferent.name + "/" + modelDifferent.name + ")");
                 }
             }
-
+            
+            trailRenderer.Clear();
+            trailRenderer.gameObject.SetActive(false);
             _points.Clear();
             Debug.Log("cleaaar ");
             canDraw = false;
         }
     }
+    
 }
