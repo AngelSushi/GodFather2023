@@ -6,17 +6,22 @@ using UnityEngine;
 public class spawn : MonoBehaviour
 {
 
-
+    public int size;
     public GameObject insectesPrefab;
     public GameObject spawnPoint;
     public GameObject respawn;
 
+    public float margin;
+
+    public List<Vector2>  spawnList = new List<Vector2>();
+
     public float spawnCooldown = 3f;
     public bool Cooldown = true;
+ 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N)  && Cooldown)
+        if (Cooldown)
         {
             random();
         }
@@ -24,26 +29,52 @@ public class spawn : MonoBehaviour
 
     public void random ()
     {
-        spawnPoint.transform.position = Random.insideUnitCircle * 5;
-        respawn = Instantiate(insectesPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+        spawnPoint.transform.position = Random.insideUnitCircle * size;
         Cooldown = false;
         StartCoroutine(spawnTime());
+
+        bool succeed = true;
+
+        if(spawnList.Count == 0)
+        {
+            SpawnEnnemy();
+        }
+
+        foreach (Vector2 trez in spawnList)
+        {
+            print(trez);
+
+            if (Vector2.Distance(trez, spawnPoint.transform.position) < margin)
+            {
+                succeed = false;
+                break;
+            }
+
+        }
+
+
+        if (succeed)
+        {
+            SpawnEnnemy();
+        }
+        else random();
+    }
+
+    private void SpawnEnnemy()
+    {
+        spawnList.Add(spawnPoint.transform.position);
+
+        respawn = Instantiate(insectesPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+        foreach (Vector2 truc in spawnList)
+        {
+            print(truc);
+            print(spawnList.Count);
+        }
     }
 
     private IEnumerator spawnTime()
     {
         yield return new WaitForSeconds(spawnCooldown);
         Cooldown = true;
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("nonnnn");
-        if (collision.gameObject.tag == "bouffe")
-        {
-            random();
-            Destroy(respawn);
-            Debug.Log("ouiiii");
-        }
     }
 }

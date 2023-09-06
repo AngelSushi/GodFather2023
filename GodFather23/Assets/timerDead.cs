@@ -16,6 +16,7 @@ public class timerDead : MonoBehaviour
     private IEnumerator endTimer()
     {
         yield return new WaitForSeconds(timer);
+        FindObjectOfType<spawn>().spawnList.Remove(transform.position);
         Destroy(gameObject);
     }
 
